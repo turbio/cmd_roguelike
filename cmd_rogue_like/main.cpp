@@ -1,3 +1,6 @@
+#define WIDTH 24//console width in chars
+#define HEIGHT 80//console height in chars
+
 #include <iostream>
 #include <string>
 #include <Windows.h>
@@ -5,13 +8,9 @@
 #include "Item.h"
 #include <ctime>
 #include <cstdlib>
+#include "Display.h"
 
 using namespace std;
-
-bool running = true, started = false, inventory = false, ingame = false;
-char display[24][80];
-char map[23][80];
-Item invItems[40];
 
 void logic(string);
 void move(string);
@@ -20,35 +19,55 @@ void print();
 void render();
 void drawString(int, int, string);
 
-Sprite plr(4, 3, 'X');
+bool running = true, started = false, inventory = false, ingame = false;
+char display[24][79];
+char map[23][79];
+Item invItems[40];
+
+Sprite plr(4, 3, 1);
 
 void init(){
 	cout << "initializing...\n";
 	for(int i = 0; i < sizeof(display) / sizeof(display[0]); i++){
 		for(int x = 0; x < sizeof(display[i]) / sizeof(display[i][0]); x++){
-			display[i][x] = '.';
+			display[i][x] = 176;
 		}
 	}
 	int x, y, w, h;
 	for(int i = 0; i < 10; i++){
 		x = (rand() % ( sizeof(map[0]) / sizeof(map[0][0])));
 		y = (rand() % ( sizeof(map) / sizeof(map[0])));
-		w = (rand() % ( sizeof(map[0]) / sizeof(map[0][0])));
-		h = (rand() % ( sizeof(map[0]) / sizeof(map[0][0])));
+		w = (rand() % 15) + 4;
+		h = (rand() % 15) + 4;
 
-		string top, side = "-";
+		string top, bottom, side = "";
+		side += 186;
 
 		for(int wi = 0; wi < w; wi++){
-			top += "-";
+			if(wi == 0){
+				top += 201;
+				bottom += 200;
+			}else if(wi == w - 1){
+				top += 187;
+				bottom += 188;
+			}else{
+				top += 205;
+				bottom += 205;
+			}
 			if(wi < w - 2){
 				side += " ";
 			}
 		}
 
-		side += "-";
+		side += 186;
 
 		for(int y = 0; y < h; y++){
 			if(y == 0 || y == h - 1){
+				if(y == 0){
+					cout << top << endl;
+				}else{
+					cout << bottom << endl;
+				}
 				
 			}else{
 				cout << side << endl;
@@ -62,6 +81,8 @@ void init(){
 int main(){
 	string input = "";
 
+	Display disp(WIDTH, HEIGHT);
+
 	cout << 
 	"************************************************\n"
 	"*     Welcome to the amazing adventures of     *\n"
@@ -71,7 +92,7 @@ int main(){
 	"*   A S D W = move                             *\n"
 	"*   I = inventory                              *\n"
 	"*   T = attack                                 *\n"
-	"*   X <--- this is you                         *\n"
+	"*   "<< plr.getChar() <<" <--- this is you                         *\n"
 	"*                                              *\n"
 	"*             TYPE START TO BEGIN              *\n"
 	"************************************************\n";
@@ -184,10 +205,12 @@ void render(){
 }
 
 void print(){
+	//system("cls");
 	for(int i = 0; i < sizeof(display) / sizeof(display[0]); i++){
 		for(int x = 0; x < sizeof(display[i]) / sizeof(display[i][0]); x++){
 			cout << display[i][x];
 		}
+		cout << "\n";
 	}
 
 	cout << ">";
