@@ -1,5 +1,5 @@
-#define WIDTH 24//console width in chars
-#define HEIGHT 80//console height in chars
+#define WIDTH 24	//console chars wide
+#define HEIGHT 80	//console chars high
 
 #include <iostream>
 #include <string>
@@ -18,19 +18,35 @@ void warning(string);
 void print();
 void render();
 void drawString(int, int, string);
+void init();
 
 bool running = true, started = false, inventory = false, ingame = false;
-char display[24][79];
-char map[23][79];
-Item invItems[40];
 
-Sprite plr(4, 3, 1);
+
+Sprite player(4, 3, 1);
+
+int main(){
+	string input = "";
+
+	Display * disp = new Display(WIDTH, HEIGHT);
+	disp->showIntro(player.getChar());
+
+	while(running){
+		cin >> input;
+		logic(input);
+		if(started){
+			render();
+		}
+	}
+
+	return 0;
+}
 
 void init(){
 	cout << "initializing...\n";
 	for(int i = 0; i < sizeof(display) / sizeof(display[0]); i++){
 		for(int x = 0; x < sizeof(display[i]) / sizeof(display[i][0]); x++){
-			display[i][x] = 176;
+			
 		}
 	}
 	int x, y, w, h;
@@ -59,7 +75,7 @@ void init(){
 			}
 		}
 
-		side += 186;
+		
 
 		for(int y = 0; y < h; y++){
 			if(y == 0 || y == h - 1){
@@ -76,36 +92,6 @@ void init(){
 	}
 
 	ingame = true;
-}
-
-int main(){
-	string input = "";
-
-	Display disp(WIDTH, HEIGHT);
-
-	cout << 
-	"************************************************\n"
-	"*     Welcome to the amazing adventures of     *\n"
-	"*                   ZIP ZONANT                 *\n"
-	"*                                              *\n"
-	"*                   CONTROLLS:                 *\n"
-	"*   A S D W = move                             *\n"
-	"*   I = inventory                              *\n"
-	"*   T = attack                                 *\n"
-	"*   "<< plr.getChar() <<" <--- this is you                         *\n"
-	"*                                              *\n"
-	"*             TYPE START TO BEGIN              *\n"
-	"************************************************\n";
-
-	while(running){
-		cin >> input;
-		logic(input);
-		if(started){
-			render();
-		}
-	}
-
-	return 0;
 }
 
 void logic(string s){
@@ -149,69 +135,4 @@ void move(string s){
 	}else if(s == "d"){
 		plr.setX(plr.getX() + 1);
 	}
-}
-
-void warning(string s){
-
-}
-
-void drawChar(int x, int y, char c){
-	display[y][x] = c;
-}
-
-void drawString(int y, int x, string s){
-	for(int a = 0; a < s.length(); a++){
-		display[y][a] = s.at(a);
-	}
-	
-}
-
-void drawBg(char c){
-	for(int i = 0; i < sizeof(display) / sizeof(display[0]); i++){
-		for(int x = 0; x < sizeof(display[i]) / sizeof(display[i][0]); x++){
-			display[i][x] = c;
-		}
-	}
-}
-
-void render(){
-	drawBg('.');
-
-	if(ingame){
-		drawChar(plr.getX(), plr.getY(), plr.getChar());
-	}else if(inventory){
-		drawBg(' ');
-		drawString(0, 0, "+====Inventory=========================+====Character==========================+");
-		drawString(1, 0, "|                                                                              |");
-		for(int i = 0; i < 23; i++){
-			if(!invItems[i].isEmpty()){
-				drawString(i + 2, 0,"                     " + invItems[i + 20].getName());
-			}
-			if(!invItems[i].isEmpty()){
-				drawString(i + 2, 0, "| " + invItems[i].getName());
-			}
-		}
-		for(int i = 1; i < 23; i++){
-			drawChar(79, i, '|');
-			drawChar(39, i, '|');
-			drawChar(0, i, '|');
-			drawChar(19, i, ':');
-		}
-		drawString(22, 0, "+======================================+=======================================+");
-		drawString(23, 0, "| I / EXIT / BACK | USE [item] | INSPECT [item] | EQUIPT [item] | DROP [item]  |");
-	}
-	cout << endl;
-	print();
-}
-
-void print(){
-	//system("cls");
-	for(int i = 0; i < sizeof(display) / sizeof(display[0]); i++){
-		for(int x = 0; x < sizeof(display[i]) / sizeof(display[i][0]); x++){
-			cout << display[i][x];
-		}
-		cout << "\n";
-	}
-
-	cout << ">";
 }

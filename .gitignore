@@ -1,5 +1,6 @@
 *.sdf
-*.sln
 *.suo
 ipch/
+release/
+debug/
 *.user
