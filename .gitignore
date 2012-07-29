@@ -9,3 +9,4 @@ debug/
 *.sublime-workspace
 *.vcxproj
 *.filters
+*.opensdf

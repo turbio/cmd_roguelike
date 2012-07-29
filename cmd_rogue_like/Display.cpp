@@ -46,6 +46,7 @@ Display::Display(int w, int h){
 	}
 
 	cout << "display setup\n";
+	SetConsoleTextAttribute(hConsole, 7);
 }
 
 //DESTRUCTOR
