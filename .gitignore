@@ -5,8 +5,6 @@ release/
 debug/
 *.sln
 *.user
-*.sublime-project
-*.sublime-workspace
 *.vcxproj
 *.filters
 *.opensdf
