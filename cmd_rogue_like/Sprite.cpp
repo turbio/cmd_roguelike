@@ -1,4 +1,5 @@
 #include "Sprite.h"
+#include "Controller.h"
 
 //CONSTRUCTOR
 Sprite::Sprite(int x, int y, char c){
@@ -48,6 +49,29 @@ void Sprite::setColor(int c){
 	color = c;
 }
 
+//return sprite color
 int Sprite::getColor(){
 	return color;
+}
+
+
+//move sprite one unit it a direction
+void Sprite::move(int d){
+	switch(d){
+		case Controller::UP:{
+			yPos--;
+		}break;
+		case Controller::DOWN:{
+			yPos++;
+		}break;
+		case Controller::RIGHT:{
+			xPos++;
+		}break;
+		case Controller::LEFT:{
+			xPos--;
+		}break;
+		default:{
+			//do nothing
+		}break;
+	}
 }

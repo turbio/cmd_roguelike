@@ -8,6 +8,12 @@
 using namespace std;
 
 class Controller{
+public:
+	enum Direction{UP = 0, RIGHT, DOWN, LEFT};	//used for direction
+
+	Controller(void);	//CONSTRUCTOR
+	~Controller(void);	//DESTRUCTOR
+	void run(void);	//start program
 private:
 	bool running;	//boolean for if running
 	bool begin;	//detect if program inited
@@ -17,10 +23,6 @@ private:
 
 	void checkInput(string s);	//function to run keyword check
 	void init(void);	//start game
-	void move(int direction);	//move player in direction
-public:
-	Controller(void);	//CONSTRUCTOR
-	~Controller(void);	//DESTRUCTOR
-	void run(void);	//start program
+	void move(Direction direction);	//move player in direction
 };
 

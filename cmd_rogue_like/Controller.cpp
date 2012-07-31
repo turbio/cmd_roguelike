@@ -1,9 +1,5 @@
 #include "Controller.h"
-#include <iostream>
-#include <string>
-#include "Sprite.h"
 
-using namespace std;
 
 int HEIGHT = 24, WIDTH = 79;
 
@@ -12,7 +8,7 @@ Controller::Controller(void){
 	running = true;
 	begin = false;
 
-	player = new Sprite(10, 10, 1);
+	player = new Sprite(2, 3, 1);
 	player->setColor(10);
 
 	display = new Display(&WIDTH, &HEIGHT);
@@ -33,24 +29,38 @@ void Controller::run(void){
 	while(running){	//loop forever while running (in case you can't read)
 		cin >> input;
 		checkInput(input);	//check input and run logic
+		if(begin){
+			display->render();
+		}
 	}
 
 }
 
+//load game
+void Controller::init(void){
+	cout << "starting...\n";
+
+	display->addSprite(player);
+	display->drawFill(177);
+
+	begin = true;
+}
+
 //move player
-void Controller::move(int d){
+void Controller::move(Direction d){
+	player->move(d);
 	switch(d){
-		case 0:{	//move up
-			//player->setY(player->getY() - 1);
+		case UP:{	//move up
+			
 		}break;
-		case 1:{	//move right
-
+		case RIGHT:{	//move right
+			
 		}break;
-		case 2:{	//move down
-
+		case DOWN:{	//move down
+			
 		}break;
-		case 3:{	//move left
-
+		case LEFT:{	//move left
+			
 		}break;
 		default:{	//noooooooo
 			//do nothing
@@ -60,7 +70,7 @@ void Controller::move(int d){
 
 //read keywords from input
 void Controller::checkInput(string s){
-	if(!begin){	//if not already inited
+	if(!begin && s == "start"){	//if not already inited
 		init();	//initalize
 		return;	//end function
 		cout << "this should never happen\n";	//NOOOOOooooo
@@ -74,28 +84,22 @@ void Controller::checkInput(string s){
 
 	if(tempArray[0] == 'i'){
 
-	}else if(tempArray[0] == 'w'){
-
-	}else if(tempArray[0] == 'd'){
-
-	}else if(tempArray[0] == 's'){
-
-	}else if(tempArray[0] == 'a'){
-
+	}else if(tempArray[0] == 'w' 
+		|| tempArray[0] == 'd' 
+		|| tempArray[0] == 's' 
+		|| tempArray[0] == 'a'){
+			for(int i = 0; i < length; i++){
+				if(tempArray[i] == 'w'){
+					move(UP);
+				}else if(tempArray[i] == 'd'){
+					move(RIGHT);
+				}else if(tempArray[i] == 's'){
+					move(DOWN);
+				}else if(tempArray[i] == 'a'){
+					move(LEFT);
+				}
+			}
 	}
 
 	delete tempArray;
-	display->render();
-}
-
-//load game
-void Controller::init(void){
-	cout << "starting...\n";
-
-	display->addSprite(player);
-
-	display->drawFill(177);
-	display->render();
-
-	begin = true;
 }

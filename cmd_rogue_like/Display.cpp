@@ -93,8 +93,8 @@ void Display::render(void){
 	//draw sprites
 	for(int i = 0; i < spriteList.size(); i++){
 		Sprite tempSprite = *spriteList.at(i);
-		screen[tempSprite.getX()][tempSprite.getY()].character = tempSprite.getChar();
-		screen[tempSprite.getX()][tempSprite.getY()].color = tempSprite.getColor();
+		screen[tempSprite.getY()][tempSprite.getX()].character = tempSprite.getChar();
+		screen[tempSprite.getY()][tempSprite.getX()].color = tempSprite.getColor();
 	}
 
 	print();

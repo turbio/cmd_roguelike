@@ -1,7 +1,9 @@
 #pragma once
 
-class Sprite
-{
+class Sprite{
+private:
+	int xPos, yPos, color;	//sprite x y and color
+	char character;	//the sprites character
 public:
 	Sprite(int, int, char);	//CONSTRUCTOR
 	~Sprite();	//DESTRUCTOR
@@ -13,9 +15,6 @@ public:
 	void setChar(char);	//set character of sprite
 	void setColor(int);	//set sprite color
 	int getColor(void);	//return sprite color
-
-private:
-	int xPos, yPos, color;	//sprite x y and color
-	char character;	//the sprites character
+	void move(int d);	//move sprite in direction
 };
 
