@@ -1,19 +1,41 @@
 ﻿/*controlls all drawing*/
-
-#include <iostream>
-#include <string>
 #include "Display.h"
-#include <Windows.h>
+#include <vector>
 
 using namespace std;
 
 HANDLE hConsole;	//used to switch console colors
 
 //CONSTRUCTOR
-Display::Display(int w, int h){
-	//mostly testing
+Display::Display(int *h, int *w){
+	//mostly testing n stuff
+	width = w;
+	height = h;
 	cout << "yams are ready";	//YAMS!!!
-	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);	//setup console color sys
+	hConsole = GetStdHandle(STD_OUTPUT_HANDLE); //setup console color sys
+
+	cout << "setting up display...\n";
+	try{
+		screen = new item*[*w];
+
+		for(int i = 0; i < *w; i++){
+			screen[i] = new item[*h];
+		}
+	}catch(...){
+		//if out of memory or something :(
+		cout << "unable to alocate memory\n";
+	}
+
+	for(int x = 0; x < *w; x++){	//set default value for all screen chars
+		for(int y = 0; y < *h; y++){
+			screen[x][y].character = 177;
+			screen[x][y].color = ((x * y) % 254) + 1;
+		}
+	}
+
+	cout << "display setup\n";
+
+	/*
 	for(int i = 0; i <= 255; i++){	//for testing - display all 255 chars
 		char c = i;
 		cout << i << " : " << c << "\t\t";
@@ -21,31 +43,13 @@ Display::Display(int w, int h){
 			cout << "\n";
 		}
 	}
-	for(int i = 0; i < 255; i++){	//test all colors
+	*/
+	
+	char c = 177;
+	for(int i = 0; i <= 15; i++){	//test all colors
 		SetConsoleTextAttribute(hConsole, i);
-		cout << i << " cout \t\t\n";
+		cout << i << c << c << c << c << c << "\t\t\n";
 	}
-	cout << "setting up display...\n";
-	//create screen chars
-	try{
-		screen = new item*[w];
-
-		for(int i = 0; i < w; i++){
-			screen[i] = new item[h];
-		}
-	}catch(...){
-		//if out of memory or something :(
-		cout << "unable to alocate memory\n";
-	}
-
-	for(int x = 0; x < w; x++){	//set default value for all screen chars
-		for(int y = 0; y < h; y++){
-			screen[x][y].character = 177;
-			screen[x][y].color = 7;
-		}
-	}
-
-	cout << "display setup\n";
 	SetConsoleTextAttribute(hConsole, 7);
 }
 
@@ -73,42 +77,28 @@ void Display::showIntro(char c){
 	SetConsoleTextAttribute(hConsole, 7);
 }
 
+//add sprite to spritelist
+void Display::addSprite(Sprite *spr){
+	spriteList.push_back(spr);
+}
+
 //refresh screen data
 void Display::render(void){
+	//fill screen (background)
+	item tempItem;
+	tempItem.character = 254;
+	tempItem.color = 7;
+	drawFill(tempItem);
 
-}
-
-/*
-void Display::render(void){
-	drawBg('.');
-
-	if(ingame){
-		drawChar(plr.getX(), plr.getY(), plr.getChar());
-	}else if(inventory){
-		drawBg(' ');
-		drawString(0, 0, "+====Inventory=========================+====Character=========================+");
-		drawString(1, 0, "                                                                              ");
-		for(int i = 0; i < 23; i++){
-			if(!invItems[i].isEmpty()){
-				drawString(i + 2, 0,"                     " + invItems[i + 20].getName());
-			}
-			if(!invItems[i].isEmpty()){
-				drawString(i + 2, 0, "| " + invItems[i].getName());
-			}
-		}
-		for(int i = 1; i < 23; i++){
-			drawChar(78, i, '|');
-			drawChar(39, i, '|');
-			drawChar(0, i, '|');
-			drawChar(19, i, ':');
-		}
-		drawString(22, 0, "+======================================+======================================+");
-		drawString(23, 0, "| I / EXIT / BACK | USE [item] | INSPECT [item] | EQUIPT [item] | DROP [item] |");
+	//draw sprites
+	for(int i = 0; i < spriteList.size(); i++){
+		Sprite tempSprite = *spriteList.at(i);
+		screen[tempSprite.getX()][tempSprite.getY()].character = tempSprite.getChar();
+		screen[tempSprite.getX()][tempSprite.getY()].color = tempSprite.getColor();
 	}
-	cout << endl;
+
 	print();
 }
-*/
 
 //show warning or message on screen
 void Display::warning(string s){
@@ -130,9 +120,18 @@ void Display::drawString(int y, int x, string s){
 
 //fill the screen with one character
 void Display::drawFill(char c){
-	for(int i = 0; i < sizeof(screen) / sizeof(screen[0]); i++){
-		for(int x = 0; x < sizeof(screen[i]) / sizeof(screen[i][0]); x++){
-			screen[i][x].character = c;
+	for(int x = 0; x < *width; x++){	//set default value for all screen chars
+		for(int y = 0; y < *height; y++){
+			screen[x][y].character = c;
+		}
+	}
+}
+
+//fill the screen with one item (char and color c c C COMBO)
+void Display::drawFill(item it){
+	for(int x = 0; x < *width; x++){	//set default value for all screen chars
+		for(int y = 0; y < *height; y++){
+			screen[x][y] = it;
 		}
 	}
 }
@@ -140,13 +139,14 @@ void Display::drawFill(char c){
 //display with cout
 void Display::print(void){
 	system("cls");
-	for(int i = 0; i < sizeof(screen) / sizeof(screen[0]); i++){
-		for(int x = 0; x < sizeof(screen[i]) / sizeof(screen[i][0]); x++){
-			SetConsoleTextAttribute(hConsole, screen[i][x].color);
-			cout << screen[i][x].character;
+	for(int x = 0; x < *width; x++){
+		for(int y = 0; y < *height; y++){
+			SetConsoleTextAttribute(hConsole, screen[x][y].color);
+			cout << screen[x][y].character;
 		}
 		cout << "\n";
 	}
 
+	SetConsoleTextAttribute(hConsole, 7);
 	cout << ">";
 }

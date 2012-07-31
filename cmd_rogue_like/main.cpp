@@ -1,9 +1,9 @@
 /*the most complex class of them all*/
 #include "Controller.h"
 
-int main(){
-	Controller controller;
-	return 0;
+int main(int x){
+	Controller controller;	//calls controller constructor
+	return 0;	//end program
 }
 
 /*

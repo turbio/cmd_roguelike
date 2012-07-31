@@ -3,17 +3,24 @@
 #include <iostream>
 #include <string>
 #include "Display.h"
+#include "Sprite.h"
 
 using namespace std;
 
 class Controller{
 private:
-	Display * display;
-	bool running;
+	bool running;	//boolean for if running
+	bool begin;	//detect if program inited
 
+	Display * display;	//holds the display class
+	Sprite * player;	//the main player
+
+	void checkInput(string s);	//function to run keyword check
+	void init(void);	//start game
+	void move(int direction);	//move player in direction
 public:
-	Controller(void);
-	~Controller(void);
-	void run(void);
+	Controller(void);	//CONSTRUCTOR
+	~Controller(void);	//DESTRUCTOR
+	void run(void);	//start program
 };
 
