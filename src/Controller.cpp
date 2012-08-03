@@ -19,7 +19,8 @@ Controller::Controller(void){
 
 //DESTRUCTOR
 Controller::~Controller(void){
-
+	delete display;
+	delete player;
 }
 
 //main program loop
@@ -42,6 +43,8 @@ void Controller::init(void){
 
 	display->addSprite(player);
 	display->drawFill(177);
+	//display->drawRect(3, 2, 4, 4, 12);
+	display->drawChar(4, 4, 'Z');
 
 	begin = true;
 }
@@ -80,8 +83,14 @@ void Controller::checkInput(string s){
 		cout << "this should never happen\n";	//NOOOOOooooo
 	}
 
-	int length = sizeof(s) / sizeof(s[0]);
-	char * tempArray = new char[length];
+	int length = s.length();
+	char * tempArray;
+	try{
+		tempArray = new char[length];
+	}catch(...){
+		cout << "able to yam the yams";
+		return;
+	};
 	for(int i = 0; i < length; i++){
 		tempArray[i] = s[i];
 	}

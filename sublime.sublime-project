@@ -2,10 +2,7 @@
 	"folders":
 	[
 		{
-			"path": "cmd_rogue_like"
-		},
-		{
-			"path": "Debug"
+			"path": "src"
 		}
 	]
 }

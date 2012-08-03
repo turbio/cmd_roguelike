@@ -35,7 +35,6 @@ Display::Display(int *h, int *w){
 
 	cout << "display setup\n";
 
-	/*
 	for(int i = 0; i <= 255; i++){	//for testing - display all 255 chars
 		char c = i;
 		cout << i << " : " << c << "\t\t";
@@ -43,6 +42,7 @@ Display::Display(int *h, int *w){
 			cout << "\n";
 		}
 	}
+	/*
 	*/
 	
 	char c = 177;
@@ -107,7 +107,7 @@ void Display::warning(string s){
 
 //draw a specific character at x and y on screen
 void Display::drawChar(int x, int y, char c){
-	screen[x][y].character = c;
+	screen[y][x].character = c;
 }
 
 //draw an entire string on the screen at specified x y
@@ -137,8 +137,12 @@ void Display::drawFill(item it){
 }
 
 //draw rectangle on screen
-void drawRect(int x, int y, int w, int h, bool fill){
-
+void Display::drawRect(int x, int y, int w, int h, int color){
+	for(int a = 0; a < w; a++){
+		for(int b = 0; b < h; b++){
+			drawChar(x, y, 'X');
+		}
+	}
 }
 
 //display with cout
