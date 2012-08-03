@@ -1,9 +1,7 @@
 *.sdf
 *.suo
 ipch/
-release/
 debug/
-*.sln
 *.user
 *.vcxproj
 *.filters
