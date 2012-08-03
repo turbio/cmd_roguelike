@@ -32,5 +32,6 @@ public:
 	void drawFill(char c);	//fill the entire screen with character
 	void drawFill(item i);	//fill the entire screen with item
 	void addSprite(Sprite *sprite); 	//add sprite to spritelist
+	void drawRect(int x, int y, int width, int height, bool fill);	//draw a rectangle on screen
 };
 

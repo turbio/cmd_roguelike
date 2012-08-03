@@ -24,5 +24,6 @@ private:
 	void checkInput(string s);	//function to run keyword check
 	void init(void);	//start game
 	void move(Direction direction);	//move player in direction
+	void generate();	//create level
 };
 

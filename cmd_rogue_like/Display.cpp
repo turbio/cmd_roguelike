@@ -136,6 +136,11 @@ void Display::drawFill(item it){
 	}
 }
 
+//draw rectangle on screen
+void drawRect(int x, int y, int w, int h, bool fill){
+
+}
+
 //display with cout
 void Display::print(void){
 	system("cls");

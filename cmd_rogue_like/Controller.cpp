@@ -46,6 +46,10 @@ void Controller::init(void){
 	begin = true;
 }
 
+void Controller::generate(){
+	
+}
+
 //move player
 void Controller::move(Direction d){
 	player->move(d);
