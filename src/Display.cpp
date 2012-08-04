@@ -92,9 +92,19 @@ void Display::render(void){
 
 	//draw sprites
 	for(int i = 0; i < spriteList.size(); i++){
-		Sprite tempSprite = *spriteList.at(i);
-		screen[tempSprite.getY()][tempSprite.getX()].character = tempSprite.getChar();
-		screen[tempSprite.getY()][tempSprite.getX()].color = tempSprite.getColor();
+		if(spriteList.at(i)->getType() == Sprite::CHAR){
+			item * tempItem;
+			tempItem = new item;
+			tempItem->character = spriteList.at(i)->getChar();
+			tempItem->color = spriteList.at(i)->getColor();
+			screen[spriteList.at(i)->getY()][spriteList.at(i)->getX()] = *tempItem;
+		}else if(spriteList.at(i)->getType() == Sprite::RECT){
+			drawRect(spriteList.at(i)->getX(),
+				spriteList.at(i)->getY(),
+				spriteList.at(i)->getWidth(),
+				spriteList.at(i)->getHeight(),
+				spriteList.at(i)->getColor());
+		}
 	}
 
 	print();

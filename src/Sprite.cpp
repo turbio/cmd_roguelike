@@ -1,12 +1,28 @@
 #include "Sprite.h"
 #include "Controller.h"
 
-//CONSTRUCTOR
+//CONSTRUCTOR for char
 Sprite::Sprite(int x, int y, char c){
 	xPos = x;
 	yPos = y;
+
 	character = c;
-	color = 7;
+	setColor();
+
+	type = CHAR;
+}
+
+//CONSTRUCTOR for rect
+Sprite::Sprite(int x, int y, int w, int h){
+	xPos = x;
+	yPos = y;
+	width = w;
+	height = h;
+
+	setColor();
+	setChar();
+
+	type = RECT;
 }
 
 //DESTRUCTOR
@@ -54,6 +70,20 @@ int Sprite::getColor(){
 	return color;
 }
 
+//return sprite type
+Sprite::drawType Sprite::getType(){
+	return type;
+}
+
+//get sprite width
+int Sprite::getWidth(){
+	return width;
+}
+
+//get sprite height
+int Sprite::getHeight(){
+	return height;
+}
 
 //move sprite one unit it a direction
 void Sprite::move(int d){

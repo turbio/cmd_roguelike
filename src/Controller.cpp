@@ -44,7 +44,6 @@ void Controller::init(void){
 	display->addSprite(player);
 	display->drawFill(177);
 	//display->drawRect(3, 2, 4, 4, 12);
-	display->drawChar(4, 4, 'Z');
 
 	begin = true;
 }
