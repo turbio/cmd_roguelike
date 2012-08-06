@@ -88,16 +88,16 @@ int Sprite::getHeight(){
 //move sprite one unit it a direction
 void Sprite::move(int d){
 	switch(d){
-		case Controller::UP:{
+		case Controller::UP:{	//move sprite up
 			yPos--;
 		}break;
-		case Controller::DOWN:{
+		case Controller::DOWN:{	//move sprite down
 			yPos++;
 		}break;
-		case Controller::RIGHT:{
+		case Controller::RIGHT:{	//move sprite right
 			xPos++;
 		}break;
-		case Controller::LEFT:{
+		case Controller::LEFT:{	//move sprite left
 			xPos--;
 		}break;
 		default:{

@@ -1,5 +1,5 @@
 #include "Controller.h"
-
+#include <ctime>
 
 int HEIGHT = 24, WIDTH = 79;
 
@@ -34,7 +34,6 @@ void Controller::run(void){
 			display->render();
 		}
 	}
-
 }
 
 //load game
@@ -43,7 +42,21 @@ void Controller::init(void){
 
 	display->addSprite(player);
 	display->drawFill(177);
-	//display->drawRect(3, 2, 4, 4, 12);
+
+	srand(time(NULL));
+
+	int x, y, w, h;
+	for(int i = 0; i < 8; i++){
+		Sprite * sprite;
+
+		w = (rand() % 25) + 4;
+		h = (rand() % 15) + 4;
+		x = (rand() % (WIDTH - w / 2));
+		y = (rand() % (HEIGHT - h / 2));
+
+		sprite = new Sprite(y, x, h, w);
+		display->addSprite(sprite);
+	}
 
 	begin = true;
 }

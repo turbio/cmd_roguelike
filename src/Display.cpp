@@ -93,12 +93,14 @@ void Display::render(void){
 	//draw sprites
 	for(int i = 0; i < spriteList.size(); i++){
 		if(spriteList.at(i)->getType() == Sprite::CHAR){
+
 			item * tempItem;
 			tempItem = new item;
 			tempItem->character = spriteList.at(i)->getChar();
 			tempItem->color = spriteList.at(i)->getColor();
 			screen[spriteList.at(i)->getY()][spriteList.at(i)->getX()] = *tempItem;
 		}else if(spriteList.at(i)->getType() == Sprite::RECT){
+
 			drawRect(spriteList.at(i)->getX(),
 				spriteList.at(i)->getY(),
 				spriteList.at(i)->getWidth(),
@@ -117,7 +119,10 @@ void Display::warning(string s){
 
 //draw a specific character at x and y on screen
 void Display::drawChar(int x, int y, char c){
-	screen[y][x].character = c;
+	//cout << "X:" << x << "  /  Y:" << y << "\t#\t" << "W:" << *width << "  /  H:" << *height << "\n";
+	if(x < *width && y < *height && x > 0 && y > 0){
+		screen[x][y].character = c;
+	}
 }
 
 //draw an entire string on the screen at specified x y
@@ -125,14 +130,13 @@ void Display::drawString(int y, int x, string s){
 	for(int a = 0; a < s.length(); a++){
 		screen[y][a].character = s.at(a);
 	}
-	
 }
 
 //fill the screen with one character
 void Display::drawFill(char c){
 	for(int x = 0; x < *width; x++){	//set default value for all screen chars
 		for(int y = 0; y < *height; y++){
-			screen[x][y].character = c;
+			drawChar(x, y, c);
 		}
 	}
 }
@@ -150,7 +154,18 @@ void Display::drawFill(item it){
 void Display::drawRect(int x, int y, int w, int h, int color){
 	for(int a = 0; a < w; a++){
 		for(int b = 0; b < h; b++){
-			drawChar(x, y, 'X');
+
+			//draw lines
+			drawChar(x + a, y, 186);
+			drawChar(x, y + b, 205);
+			drawChar(x + a, y + h, 186);
+			drawChar(x + w, y + b, 205);
+
+			//draw corners
+			drawChar(x, y, 201);
+			drawChar(x + w, y, 200);
+			drawChar(x + w, y + h, 188);
+			drawChar(x, y + h, 187);
 		}
 	}
 }
