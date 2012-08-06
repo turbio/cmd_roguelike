@@ -46,13 +46,13 @@ void Controller::init(void){
 	srand(time(NULL));
 
 	int x, y, w, h;
-	for(int i = 0; i < 8; i++){
+	for(int i = 0; i < 1; i++){
 		Sprite * sprite;
 
-		w = (rand() % 25) + 4;
-		h = (rand() % 15) + 4;
-		x = (rand() % (WIDTH - w / 2));
-		y = (rand() % (HEIGHT - h / 2));
+		w = (rand() % 35) + 4;
+		h = (rand() % 20) + 4;
+		x = (rand() % (WIDTH - w));
+		y = (rand() % (HEIGHT - h));
 
 		sprite = new Sprite(y, x, h, w);
 		display->addSprite(sprite);

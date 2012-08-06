@@ -86,7 +86,7 @@ void Display::addSprite(Sprite *spr){
 void Display::render(void){
 	//fill screen (background)
 	item tempItem;
-	tempItem.character = 254;
+	tempItem.character = 177;
 	tempItem.color = 7;
 	drawFill(tempItem);
 
@@ -120,7 +120,7 @@ void Display::warning(string s){
 //draw a specific character at x and y on screen
 void Display::drawChar(int x, int y, char c){
 	//cout << "X:" << x << "  /  Y:" << y << "\t#\t" << "W:" << *width << "  /  H:" << *height << "\n";
-	if(x < *width && y < *height && x > 0 && y > 0){
+	if(x < *width && y <= *height && x >= 0 && y >= 0){
 		screen[x][y].character = c;
 	}
 }
@@ -154,9 +154,18 @@ void Display::drawFill(item it){
 void Display::drawRect(int x, int y, int w, int h, int color){
 	for(int a = 0; a < w; a++){
 		for(int b = 0; b < h; b++){
+			//draw fill
+			for(int i = 0; i < w; i++){
+				if(b < h - 1){
+					drawChar(i + x, b + y + 1, '.');
+				}
+			}
 
 			//draw lines
-			drawChar(x + a, y, 186);
+			if(a * b % 2 == 0){
+				drawChar(x + a, y, 186);
+			}
+
 			drawChar(x, y + b, 205);
 			drawChar(x + a, y + h, 186);
 			drawChar(x + w, y + b, 205);
@@ -167,6 +176,11 @@ void Display::drawRect(int x, int y, int w, int h, int color){
 			drawChar(x + w, y + h, 188);
 			drawChar(x, y + h, 187);
 		}
+	}
+
+	int chestCount = (rand() % 3) + 1;
+	for(; chestCount >= 0 ; chestCount--){
+		drawChar(x + (rand() % (w + 0)) - 0, 0, 'C');
 	}
 }
 
