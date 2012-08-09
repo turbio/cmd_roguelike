@@ -177,11 +177,6 @@ void Display::drawRect(int x, int y, int w, int h, int color){
 			drawChar(x, y + h, 187);
 		}
 	}
-
-	int chestCount = (rand() % 3) + 1;
-	for(; chestCount >= 0 ; chestCount--){
-		drawChar(x + (rand() % (w + 0)) - 0, 0, 'C');
-	}
 }
 
 //display with cout

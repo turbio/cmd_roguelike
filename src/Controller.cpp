@@ -1,5 +1,5 @@
 #include "Controller.h"
-#include <ctime>
+#include <time.h>
 
 int HEIGHT = 24, WIDTH = 79;
 
@@ -36,17 +36,17 @@ void Controller::run(void){
 	}
 }
 
-//load game
+//initalize all objects and generate dungeon game
 void Controller::init(void){
 	cout << "starting...\n";
 
 	display->addSprite(player);
-	display->drawFill(177);
 
-	srand(time(NULL));
+	srand(time(NULL));	//create random seed for generation
 
+	//add rooms
 	int x, y, w, h;
-	for(int i = 0; i < 1; i++){
+	for(int i = 0; i < 10; i++){
 		Sprite * sprite;
 
 		w = (rand() % 35) + 4;
@@ -56,6 +56,25 @@ void Controller::init(void){
 
 		sprite = new Sprite(y, x, h, w);
 		display->addSprite(sprite);
+
+		//add chests to each room
+		int chestCount = (rand() % 4) - 1;
+		chestCount = 100;
+
+		for(; chestCount > 0 ; chestCount--){
+			display->drawChar(x + (rand() % (w - 1)) + 1, y + (rand() % (h - 1)) + 1, 'C');
+		}
+	}
+
+	try{
+		while(true){
+			Sprite * sprite = new Sprite(0, 0, 3, 3);
+			display->addSprite(sprite);
+		}
+	}catch(string s){
+		cout << "error:" << s << endl;
+	}catch(...){
+		cout << "error: error\n";
 	}
 
 	begin = true;
@@ -89,7 +108,7 @@ void Controller::move(Direction d){
 
 //read keywords from input
 void Controller::checkInput(string s){
-	if(!begin && s == "start"){	//if not already inited
+	if(/*!begin && */s == "start"){	//if not already inited
 		init();	//initalize
 		return;	//end function
 		cout << "this should never happen\n";	//NOOOOOooooo
