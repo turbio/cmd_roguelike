@@ -66,6 +66,7 @@ void Controller::init(void){
 		}
 	}
 
+	/*
 	try{
 		while(true){
 			Sprite * sprite = new Sprite(0, 0, 3, 3);
@@ -76,6 +77,7 @@ void Controller::init(void){
 	}catch(...){
 		cout << "error: error\n";
 	}
+	*/
 
 	begin = true;
 }
