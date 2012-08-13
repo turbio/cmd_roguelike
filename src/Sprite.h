@@ -3,13 +3,15 @@
 class Sprite{
 public:
 	enum drawType{CHAR, RECT, STRING};	//how to draw sprite
+	enum Layer{BACKGROUND, MIDDLEGROUND, FOREGROUND};	//used in layering to determin what is in front when overlaping
 private:
 	int xPos, yPos, width, height, color;	//sprite x y and color
 	char character;	//the sprites character
-	drawType type;
+	Layer layer;	//wich layer the sprite it on
+	drawType type;	//how to draw sprite/ rectangle, single character, fill
 public:
-	Sprite(int x, int y, char);	//CONSTRUCTOR or character sprites
-	Sprite(int xPositon, int yPosition, int width, int height);	//CONSTRUCTOR for rect type sprite
+	Sprite(int x, int y, char, Layer = BACKGROUND);	//CONSTRUCTOR or character sprites
+	Sprite(int xPositon, int yPosition, int width, int height, Layer = BACKGROUND);	//CONSTRUCTOR for rect type sprite
 	~Sprite(void);	//DESTRUCTOR
 	void setX(int x = 0);	//set x position
 	void setY(int y = 0);	//set y position
@@ -23,5 +25,6 @@ public:
 	drawType getType(void);	//return the drawing method (used in rendering)
 	int getWidth(void);	//return sprite width
 	int getHeight(void);	//return sprite height
+	Layer getLayer(void);	//return the layer that the sprite is on
 };
 

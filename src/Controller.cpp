@@ -1,20 +1,21 @@
 #include "Controller.h"
 #include <time.h>
 
-int HEIGHT = 24, WIDTH = 79;
+int HEIGHT = 24, WIDTH = 79;	//width and height to draw
 
 //CONSTRUCTOR
 Controller::Controller(void){
-	running = true;
-	begin = false;
+	running = true;	//renning is used to keep main loop going
+	begin = false;	//used to deternim if the game has been inited
 
-	player = new Sprite(2, 3, 1);
-	player->setColor(10);
+	char playerChar = 1;	//the players
+	player = new Sprite(2, 3, playerChar, Sprite::FOREGROUND);	//create main sprite which the user controlls
+	player->setColor(10);	//set player color to green
 
-	display = new Display(&WIDTH, &HEIGHT);
-	display->showIntro(player->getChar());
+	display = new Display(&WIDTH, &HEIGHT);	//initilize display
+	display->showIntro(player->getChar());	//display begining message
 
-	run();
+	run();	//enter main loop
 }
 
 //DESTRUCTOR
@@ -30,8 +31,8 @@ void Controller::run(void){
 	while(running){	//loop forever while running (in case you can't read)
 		cin >> input;
 		checkInput(input);	//check input and run logic
-		if(begin){
-			display->render();
+		if(begin){	//if the game has started (inited, generated everything)
+			display->render();	//render and print to console/ screen
 		}
 	}
 }
@@ -40,50 +41,50 @@ void Controller::run(void){
 void Controller::init(void){
 	cout << "starting...\n";
 
-	display->addSprite(player);
+	display->addSprite(player);	//add main player to display list
 
 	srand(time(NULL));	//create random seed for generation
 
 	//add rooms
-	int x, y, w, h;
+	int x, y, w, h;	//holds temporary position and size data
+	bool startAdded = false, endAdded = false;	//if an exit and entrence have been added
 	for(int i = 0; i < 10; i++){
-		Sprite * sprite;
+		Sprite * sprite;	//create empty sprite variable
 
-		w = (rand() % 35) + 4;
+		w = (rand() % 35) + 4;	//random w h x and y
 		h = (rand() % 20) + 4;
 		x = (rand() % (WIDTH - w));
 		y = (rand() % (HEIGHT - h));
 
-		sprite = new Sprite(y, x, h, w);
+		sprite = new Sprite(y, x, h, w);	//create sprite with random pos and size
 		display->addSprite(sprite);
 
 		//add chests to each room
-		int chestCount = (rand() % 4) - 1;
-		chestCount = 100;
+		int chestCount = (rand() % 3);	//add a random amount of chestes to each room 0-2
 
 		for(; chestCount > 0 ; chestCount--){
-			display->drawChar(x + (rand() % (w - 1)) + 1, y + (rand() % (h - 1)) + 1, 'C');
+			Sprite * sprite = new Sprite(x + (rand() % (w - 1)) + 1, y + (rand() % (h - 1)) + 1, 232);	//creat single character sprite at random position in current room
+			display->addSprite(sprite);	//add sprite to display list
 		}
-	}
 
-	/*
-	try{
-		while(true){
-			Sprite * sprite = new Sprite(0, 0, 3, 3);
-			display->addSprite(sprite);
+		//add starting positon/entrance
+		if(!startAdded){
+			Sprite * start = new Sprite(x + (rand() % (w - 1)) + 1, y + (rand() % (h - 1)) + 1, 'S', Sprite::MIDDLEGROUND);	//crate entrance sprite
+			display->addSprite(start);	//add entrance sprite to display list
+
+			player->setX(start->getX());	//set player to level entrance
+			player->setY(start->getY());
+
+			startAdded = true;	//cannot add any more starts
+		}else if(!endAdded){	//add exit from dungeion
+			Sprite * sprite = new Sprite(x + (rand() % (w - 1)) + 1, y + (rand() % (h - 1)) + 1, 'E');	//create exit sprite
+			display->addSprite(sprite);	//add exit sprite to display list
+
+			endAdded = true;	//cannot add any more exits
 		}
-	}catch(string s){
-		cout << "error:" << s << endl;
-	}catch(...){
-		cout << "error: error\n";
 	}
-	*/
 
 	begin = true;
-}
-
-void Controller::generate(){
-	
 }
 
 //move player

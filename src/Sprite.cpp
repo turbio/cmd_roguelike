@@ -2,7 +2,7 @@
 #include "Controller.h"
 
 //CONSTRUCTOR for char
-Sprite::Sprite(int x, int y, char c){
+Sprite::Sprite(int x, int y, char c, Layer l){
 	xPos = x;
 	yPos = y;
 
@@ -10,10 +10,11 @@ Sprite::Sprite(int x, int y, char c){
 	setColor();
 
 	type = CHAR;
+	layer = l;
 }
 
 //CONSTRUCTOR for rect
-Sprite::Sprite(int x, int y, int w, int h){
+Sprite::Sprite(int x, int y, int w, int h, Layer l){
 	xPos = x;
 	yPos = y;
 	width = w;
@@ -23,6 +24,7 @@ Sprite::Sprite(int x, int y, int w, int h){
 	setChar();
 
 	type = RECT;
+	layer = l;
 }
 
 //DESTRUCTOR
@@ -83,6 +85,11 @@ int Sprite::getWidth(){
 //get sprite height
 int Sprite::getHeight(){
 	return height;
+}
+
+//get sprite layer
+Sprite::Layer Sprite::getLayer(){
+	return layer;
 }
 
 //move sprite one unit it a direction

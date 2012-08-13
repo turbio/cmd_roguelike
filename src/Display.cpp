@@ -90,26 +90,29 @@ void Display::render(void){
 	tempItem.color = 7;
 	drawFill(tempItem);
 
-	//draw sprites
-	for(int i = 0; i < spriteList.size(); i++){
-		if(spriteList.at(i)->getType() == Sprite::CHAR){
+	//draw sprites	 COMENT THIS STUFF!!!
+	for(int g = 0; g < 3; g++){	//render background, middleground then foreground
+		for(int s = 0; s < spriteList.size(); s++){
+			if(g == spriteList.at(s)->getLayer()){
+				if(spriteList.at(s)->getType() == Sprite::CHAR){
+					item * tempItem;
+					tempItem = new item;
+					tempItem->character = spriteList.at(s)->getChar();
+					tempItem->color = spriteList.at(s)->getColor();
+					screen[spriteList.at(s)->getY()][spriteList.at(s)->getX()] = *tempItem;
 
-			item * tempItem;
-			tempItem = new item;
-			tempItem->character = spriteList.at(i)->getChar();
-			tempItem->color = spriteList.at(i)->getColor();
-			screen[spriteList.at(i)->getY()][spriteList.at(i)->getX()] = *tempItem;
-		}else if(spriteList.at(i)->getType() == Sprite::RECT){
-
-			drawRect(spriteList.at(i)->getX(),
-				spriteList.at(i)->getY(),
-				spriteList.at(i)->getWidth(),
-				spriteList.at(i)->getHeight(),
-				spriteList.at(i)->getColor());
+				}else if(spriteList.at(s)->getType() == Sprite::RECT){
+					drawRect(spriteList.at(s)->getX(),
+						spriteList.at(s)->getY(),
+						spriteList.at(s)->getWidth(),
+						spriteList.at(s)->getHeight(),
+						spriteList.at(s)->getColor());
+				}
+			}
 		}
 	}
 
-	print();
+	print();	//output to consol
 }
 
 //show warning or message on screen
