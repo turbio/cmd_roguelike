@@ -14,6 +14,7 @@ public:
 	Controller(void);	//CONSTRUCTOR
 	~Controller(void);	//DESTRUCTOR
 	void run(void);	//start program
+	char charAt(int x, int y);	//return the rendered char at specific x and y
 private:
 	bool running;	//boolean for if running
 	bool begin;	//detect if program inited

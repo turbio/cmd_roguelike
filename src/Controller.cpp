@@ -31,7 +31,7 @@ void Controller::run(void){
 	while(running){	//loop forever while running (in case you can't read)
 		cin >> input;
 		checkInput(input);	//check input and run logic
-		if(begin){	//if the game has started (inited, generated everything)
+		if(begin){	//if the game has started (inited, generated everything) 
 			display->render();	//render and print to console/ screen
 		}
 	}
@@ -61,9 +61,10 @@ void Controller::init(void){
 
 		//add chests to each room
 		int chestCount = (rand() % 3);	//add a random amount of chestes to each room 0-2
+		char chestChar = 232;
 
 		for(; chestCount > 0 ; chestCount--){
-			Sprite * sprite = new Sprite(x + (rand() % (w - 1)) + 1, y + (rand() % (h - 1)) + 1, 232);	//creat single character sprite at random position in current room
+			Sprite * sprite = new Sprite(x + (rand() % (w - 1)) + 1, y + (rand() % (h - 1)) + 1, chestChar, Sprite::MIDDLEGROUND);	//creat single character sprite at random position in current room
 			display->addSprite(sprite);	//add sprite to display list
 		}
 
@@ -77,7 +78,8 @@ void Controller::init(void){
 
 			startAdded = true;	//cannot add any more starts
 		}else if(!endAdded){	//add exit from dungeion
-			Sprite * sprite = new Sprite(x + (rand() % (w - 1)) + 1, y + (rand() % (h - 1)) + 1, 'E');	//create exit sprite
+			char exitChar = 233;
+			Sprite * sprite = new Sprite(x + (rand() % (w - 1)) + 1, y + (rand() % (h - 1)) + 1, exitChar, Sprite::MIDDLEGROUND);	//create exit sprite
 			display->addSprite(sprite);	//add exit sprite to display list
 
 			endAdded = true;	//cannot add any more exits
@@ -89,23 +91,11 @@ void Controller::init(void){
 
 //move player
 void Controller::move(Direction d){
-	player->move(d);
-	switch(d){
-		case UP:{	//move up
-			
-		}break;
-		case RIGHT:{	//move right
-			
-		}break;
-		case DOWN:{	//move down
-			
-		}break;
-		case LEFT:{	//move left
-			
-		}break;
-		default:{	//noooooooo
-			//do nothing
-		}break;
+	if((d == UP && display->charAt(player->getX(), player->getY() - 1) == '.') ||
+		(d == DOWN && display->charAt(player->getX(), player->getY() + 1) == '.') ||
+		(d == RIGHT && display->charAt(player->getX() + 1, player->getY() + 0) == '.') ||
+		(d == LEFT && display->charAt(player->getX() - 1, player->getY() + 0) == '.')){
+		player->move(d);
 	}
 }
 

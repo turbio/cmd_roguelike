@@ -182,6 +182,11 @@ void Display::drawRect(int x, int y, int w, int h, int color){
 	}
 }
 
+//return char at cord
+char Display::charAt(int x, int y){
+	return screen[y][x].character;
+}
+
 //display with cout
 void Display::print(void){
 	system("cls");

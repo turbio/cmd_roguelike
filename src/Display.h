@@ -14,10 +14,9 @@ private:
 		char character;
 		int color;
 	};
-	int * width, *height;	//screen width and height
 
 	item **screen;	//two dimensional array of all characters
-
+	int * width, *height;	//screen width and height
 	vector<Sprite*> spriteList;
 
 	void print(void);
@@ -33,5 +32,6 @@ public:
 	void drawFill(item i);	//fill the entire screen with item
 	void addSprite(Sprite *sprite); 	//add sprite to spritelist
 	void drawRect(int x_position, int y_position, int tect_width, int rect_height, int color);	//draw a rectangle on screen
+	char charAt(int x, int y);	//return char at position
 };
 
